@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <body>
+    <main>
+      <div class="container">
+        <h1>Home Sweet Home</h1>
+        <section class="home-links">
+          <a href="/tutorland/">Tutorland</a> |
+          <a href="/finass/">Finass</a>
+        </section>
+      
+          <section class="search">
+            <form action="https://www.google.com/search" method="GET">
+              <input type="text" name="q" placeholder="Search..." />
+              <button type="submit">Go</button>
+            </form>
+          </section>
+       
+
+      </div>
+    </main>
+  </body>
+  {% endblock %}
