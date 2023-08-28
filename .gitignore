@@ -1,0 +1,10 @@
+/__pycache__
+/json backups
+/home/__pycache__
+/home/migrations
+/tutorland/__pycache__
+/tutorland/migrations
+/finass/__pycache__
+/finass/migrations
+/home_server/__pycache__
+/backend/data.json
