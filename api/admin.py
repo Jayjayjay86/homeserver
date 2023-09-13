@@ -1,4 +1,8 @@
 from django.contrib import admin
-from .models import ExpenseRecord, RecordsBackup
+from api.models import Student, Lesson, Register, Expense, Income
 
-admin.site.site_header = "Home Server"
+admin.site.register(Student)
+admin.site.register(Lesson)
+admin.site.register(Register)
+admin.site.register(Expense)
+admin.site.register(Income)

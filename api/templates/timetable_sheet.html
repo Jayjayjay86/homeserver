@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lesson Spreadsheet</title>
+    <style>
+        /* Base table styling */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Styling for day headings */
+        h2 {
+            background-color: #333;
+            color: #fff;
+            padding: 8px;
+            margin-top: 0;
+        }
+
+        /* Styling for Saturday and Sunday */
+        table.Saturday th,
+        table.Sunday th {
+            background-color: #ffcccb;
+        }
+    </style>
+</head>
+<body>
+    {% for day, lessons in grouped_lessons.items %}
+    <h2>{{ day }} Lessons</h2>
+    <table class="{{ day }}">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Student</th>
+                <!-- Add more table headers as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for lesson in lessons %}
+            <tr>
+                <td>{{ lesson.time }}</td>
+                <td>{{ lesson.student.name }}</td>
+                <!-- Add more table cells as needed -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+    <script>
+        // Function to call window.print() on page load
+        function printPage() {
+            window.print();
+        }
+
+        // Add an event listener to trigger the printPage function when the page loads
+        window.onload = printPage;
+    </script>
+</body>
+</html>

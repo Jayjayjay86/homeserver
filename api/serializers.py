@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Lesson, Register, ExpenseRecord
+from .models import Student, Lesson, Register, Expense, Income
 from datetime import datetime
 
 
@@ -26,7 +26,7 @@ class LessonSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data["subject"] = data["subject"].title()
         data["day"] = data["day"].title()
-        data["time"] = datetime.strptime(data["time"], "%H:%M:%S").strftime("%-I%p")
+        data["time"] = datetime.strptime(data["time"], "%H:%M:%S").strftime("%H:%M")
         return data
 
 
@@ -38,5 +38,11 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ExpenseRecord
+        model = Expense
+        fields = "__all__"
+
+
+class IncomeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Income
         fields = "__all__"

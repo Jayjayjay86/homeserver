@@ -1,9 +1,27 @@
 from django.db import models
 
+SUBJECT_CHOICES = [("n", "native"), ("g", "grammar")]
+PURPOSE_CHOICES = [
+    ("hm", "home"),
+    ("tr", "travel"),
+    ("fd", "food"),
+    ("bl", "bills"),
+    ("db", "debt"),
+    ("cr", "car"),
+    ("dg", "dogs"),
+    ("wf", "wife"),
+    ("hs", "husband"),
+    ("sc", "social tax"),
+    ("tl", "tutorland"),
+    ("cj", "cjgrower"),
+    ("ms", "misc"),
+]
 
+
+# Tutorland models here.
 class Student(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True, unique=True)
-    name = models.CharField(max_length=50, unique=True)
+    id = models.AutoField(auto_created=True, primary_key=True)
+    name = models.CharField(max_length=30)
     lessons_remaining_grammar_only = models.IntegerField(
         default=0, blank=True, null=True
     )
@@ -11,7 +29,7 @@ class Student(models.Model):
         default=0, blank=True, null=True
     )
     lessons_remaining = models.IntegerField(default=0, blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.TimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -22,13 +40,13 @@ class Student(models.Model):
 
 
 class Lesson(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True, unique=True)
+    id = models.AutoField(auto_created=True, primary_key=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=50)
-    time = models.TimeField()
     day = models.CharField(max_length=10)
+    time = models.TimeField()
+    subject = models.CharField(choices=SUBJECT_CHOICES, max_length=7)
     isonline = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.TimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.student.name} - {self.subject} - {self.day}"
@@ -39,10 +57,11 @@ class Lesson(models.Model):
 
 
 class Register(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True, unique=True)
-    attendance_data = models.JSONField()
+    id = models.AutoField(auto_created=True, primary_key=True)
+    created = models.TimeField(auto_now_add=True)
     date = models.DateField()
-    created = models.DateTimeField(auto_now_add=True)
+    entry = models.JSONField()
+    submitted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.date}"
@@ -52,39 +71,52 @@ class Register(models.Model):
         verbose_name_plural = "Registries"
 
 
-class RecordsBackup(models.Model):
-    id = models.AutoField(auto_created=True, unique=True, primary_key=True)
-    records = models.CharField(max_length=100000)
-    created = models.DateTimeField(auto_now_add=True, null=True)
+# Finance models here.
+class Income(models.Model):
+    id = models.AutoField(auto_created=True, primary_key=True)
+    created = models.TimeField(auto_now_add=True)
+    source = models.CharField(max_length=30)
+    amount = models.IntegerField()
+    date = models.DateField()
 
     def __str__(self):
-        return f"{self.created.strftime('%d-%m-%Y')}"
+        return f"{self.source}- {self.amount}"
 
     class Meta:
-        verbose_name = "Back-Up"
-        verbose_name_plural = "Back-Ups"
+        verbose_name = "Income"
+        verbose_name_plural = "Incomings"
 
 
-# Create your models here.
-class ExpenseRecord(models.Model):
-    id = models.AutoField(auto_created=True, unique=True, primary_key=True)
-
-    purpose = models.CharField(max_length=40)
-    description = models.CharField(max_length=100)
+class Expense(models.Model):
+    id = models.AutoField(auto_created=True, primary_key=True)
+    created = models.TimeField(auto_now_add=True)
+    purpose = models.CharField(choices=PURPOSE_CHOICES, max_length=2)
+    description = models.CharField(max_length=30)
     amount = models.IntegerField(default=0)
-
-    is_income = models.BooleanField(default=False)
-    is_debt = models.BooleanField(default=False)
-    is_weekly = models.BooleanField(default=True)
     is_monthly = models.BooleanField(default=False)
+    is_debt = models.BooleanField(default=False)
     debt_amount = models.IntegerField(default=0)
-
     date = models.DateField()
-    created = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.purpose} - {self.description[0:10]}... - {self.date}"
 
     class Meta:
-        verbose_name = "Record"
-        verbose_name_plural = "Records"
+        verbose_name = "Expense"
+        verbose_name_plural = "Expenses"
+
+
+# Cj Grower models here.
+class CuttingsBatch(models.Model):
+    id = models.AutoField(auto_created=True, primary_key=True)
+    created = models.TimeField(auto_now_add=True)
+    strain = models.CharField(max_length=25)
+    amount = models.IntegerField()
+    date = models.DateField()
+
+    def __str__(self):
+        return f"{self.strain} - {self.amount}"
+
+    class Meta:
+        verbose_name = "Cuttings Batch"
+        verbose_name_plural = "Cuttings"
