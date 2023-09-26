@@ -99,6 +99,7 @@ def create_lesson(request):
         Lesson.objects.create(
             student=student, isonline=is_online, day=native_day, time=native_time
         )
+    print(response)
     return Response(status=status.HTTP_201_CREATED)
 
 

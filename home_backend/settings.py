@@ -16,12 +16,27 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "localhost",
+    "localhost:8000",
     "192.168.1.74",
+    "192.168.1.74:8000",
     "localhost:3000",
     "127.0.0.1",
 ]
 CORS_ALLOW_ALL_ORIGINS = True  # For development, allowing all origins
-
+CORS_ALLOWED_ORIGINS = [
+    "localhost",
+    "localhost:8000",
+    "192.168.1.74",
+    "192.168.1.74:8000",
+    "localhost:3000",
+    "127.0.0.1",
+]
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -31,9 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "corsheaders",
     "api.apps.ApiConfig",
     "rest_framework",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [

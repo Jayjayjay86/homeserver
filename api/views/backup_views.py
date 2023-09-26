@@ -55,41 +55,35 @@ def load_finance_database(request):
 
 # for backing up
 @api_view(["GET"])
-def backup_database(request):
+def backup_finance_database(request):
     expenses = Expense.objects.all()
-    serializer = ExpenseSerializer(expenses, many=True)
-
     # Define a dictionary to store the data
     data = {"date": datetime.today().strftime("%Y-%m-%d"), "expense_details": []}
 
     # Loop through the Django objects and add them to the dictionary
     if expenses:
-        try:
-            for expense in expenses:
-                expense = {
-                    "id": expense.id,
-                    "description": expense.description,
-                    "purpose": expense.purpose,
-                    "amount": expense.amount,
-                    "is_debt": expense.is_debt,
-                    "debt_amount": expense.debt_amount,
-                    "is_monthly": expense.is_monthly,
-                    "created": str(expense.createntry),
-                    "date": expense.date.strftime("%Y-%m-%d"),
-                }
+        for expense in expenses:
+            expense = {
+                "id": expense.id,
+                "description": expense.description,
+                "purpose": expense.purpose,
+                "amount": expense.amount,
+                "is_debt": expense.is_debt,
+                "debt_amount": expense.debt_amount,
+                "is_monthly": expense.is_monthly,
+                "created": str(expense.created),
+                "date": expense.date.strftime("%Y-%m-%d"),
+            }
 
-                data["expense_details"].append(expense)
-
-            # Save the data as a JSON file with the date and time in the filename
-            now = datetime.now()
-            date_string = now.strftime("%m-%d")
-            filename = f"data_{date_string}.json"
-            with open(filename, "w") as file:
-                json.dump(data, file, indent=2)
-                RecordsBackup.objects.create(records=str(data))
-
-        except Exception as e:
-            return Response(serializer.errors, status=status.HTTP_418_IM_A_TEAPOT)
+            data["expense_details"].append(expense)
+        data["total_amount"] = len(expenses)
+        print(data)
+        # Save the data as a JSON file with the date and time in the filename
+        now = datetime.now()
+        date_string = now.strftime("%m-%d")
+        filename = f"data_{date_string}.json"
+        with open(filename, "w") as file:
+            json.dump(data, file, indent=2)
 
     return Response(status=status.HTTP_204_NO_CONTENT)
 

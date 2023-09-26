@@ -5,11 +5,13 @@ from ..views.backup_views import (
     list_backups,
     load_student_database,
     load_finance_database,
+    backup_finance_database,
 )
 
 urlpatterns = [
     path("students/load", load_student_database, name="load_student_database"),
     path("expenses/load", load_finance_database, name="load_expense_database"),
+    path("expenses/backup", backup_finance_database, name="backup_finance_database"),
     path("backup/<int:pk>/", delete_backup, name="delete-backup"),
     path("backups/clear/", clear_backups, name="clear_backups"),
 ]
