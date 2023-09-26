@@ -140,7 +140,7 @@ def print_grammar_timetable(request):
         for day, group in groupby(lessons, key=lambda lesson: lesson.day)
     }
 
-    context = {"grouped_lessons": grouped_lessons}
+    context = {"grouped_lessons": grouped_lessons, "subject": "Grammar"}
     return render(request, "timetable_sheet.html", context)
 
 
@@ -154,7 +154,7 @@ def print_native_timetable(request):
         for day, group in groupby(lessons, key=lambda lesson: lesson.day)
     }
 
-    context = {"grouped_lessons": grouped_lessons}
+    context = {"grouped_lessons": grouped_lessons, "subject": "Native"}
     return render(request, "timetable_sheet.html", context)
 
 

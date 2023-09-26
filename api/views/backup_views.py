@@ -34,13 +34,6 @@ def load_student_database(request):
 
 def load_finance_database(request):
     for entry in ed["expense_details"]:
-        if entry["is_income"] == True:
-            Income.objects.create(
-                source=entry["description"],
-                amount=entry["amount"],
-                date=entry["date"],
-            )
-            continue
         Expense.objects.create(
             purpose=entry["purpose"],
             description=entry["description"],

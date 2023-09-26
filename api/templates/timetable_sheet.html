@@ -1,71 +1,111 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Lesson Spreadsheet</title>
     <style>
-        /* Base table styling */
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        /* Styling for day headings */
-        h2 {
-            background-color: #333;
-            color: #fff;
-            padding: 8px;
-            margin-top: 0;
-        }
-
-        /* Styling for Saturday and Sunday */
-        table.Saturday th,
-        table.Sunday th {
-            background-color: #ffcccb;
-        }
+      h1 {
+        text-align: center;
+        font-size: 0.9rem;
+        margin: 0 0 0 1rem;
+        padding: 0;
+      }
+      .timetableprintsheet {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+      }
+      .table strong {
+        text-align: center;
+        font-size: 1rem;
+        margin: 0 0 0 0;
+      }
+      .table article {
+        margin: 0.3rem 0 0.3rem 0rem;
+      }
+      .table {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        flex: 1;
+        margin-right: 0.4rem;
+        padding: 1rem;
+        border-radius: 10px;
+      }
+      .Monday,
+      .Tuesday,
+      .Wednesday,
+      .Thursday,
+      .Friday,
+      .Saturday,
+      .Sunday {
+        border-radius: 10px;
+      }
+      .Monday strong,
+      .Tuesday strong,
+      .Wednesday strong,
+      .Thursday strong,
+      .Friday strong {
+        font-size: 1rem;
+        border-radius: 10px;
+      }
+      .Monday article,
+      .Tuesday article,
+      .Wednesday article,
+      .Thursday article,
+      .Friday article {
+        margin-bottom: 1px solid black;
+      }
+      .Monday,
+      .Tuesday,
+      .Wednesday,
+      .Thursday,
+      .Friday {
+        border: 1px solid rgb(29, 23, 86);
+        background-color: rgba(135, 135, 225, 0.691);
+      }
+      .Saturday,
+      .Sunday {
+        border: 1px solid rgb(92, 25, 25);
+        background-color: #da9695e2;
+      }
+      .Saturday strong,
+      .Sunday strong {
+        border-radius: 10px;
+      }
+      .Saturday article,
+      .Sunday article {
+        margin-bottom: 1px solid black;
+      }
     </style>
-</head>
-<body>
-    {% for day, lessons in grouped_lessons.items %}
-    <h2>{{ day }} Lessons</h2>
-    <table class="{{ day }}">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Student</th>
-                <!-- Add more table headers as needed -->
-            </tr>
-        </thead>
-        <tbody>
-            {% for lesson in lessons %}
-            <tr>
-                <td>{{ lesson.time }}</td>
-                <td>{{ lesson.student.name }}</td>
-                <!-- Add more table cells as needed -->
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endfor %}
+  </head>
+  <body>
+    <h1>{{subject}}</h1>
+    <div class="timetableprintsheet">
+      {% for day, lessons in grouped_lessons.items %}
+      <div class="table">
+        <strong>{{ day|title }}</strong>
+        <div class="{{ day|title }}">
+          {% for lesson in lessons %}
+          <div class="daydata">
+            <strong>{{ lesson.time }}</strong>
+            <article>{{ lesson.student.name|title }}</article>
+          </div>
+
+          {% endfor %}
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
 
     <script>
-        // Function to call window.print() on page load
-        function printPage() {
-            window.print();
-        }
+      // Function to call window.print() on page load
+      function printPage() {
+        window.print();
+      }
 
-        // Add an event listener to trigger the printPage function when the page loads
-        window.onload = printPage;
+      // Add an event listener to trigger the printPage function when the page loads
+      window.onload = printPage;
     </script>
-</body>
+  </body>
 </html>
